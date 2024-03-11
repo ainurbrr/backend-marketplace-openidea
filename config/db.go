@@ -3,29 +3,22 @@ package config
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 
-	"github.com/joho/godotenv"
+	// load postgres driver
+	_ "github.com/lib/pq"
 )
 
-func createConnection() *sql.DB {
-	// load .env file
-	err := godotenv.Load(".env")
-
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
+func CreateConnection() *sql.DB {
 	// Open the connection
-	db, err := sql.Open("postgres", os.Getenv("POSTGRES_URL"))
+	DB, err := sql.Open("postgres", os.Getenv("POSTGRES_URL"))
 
 	if err != nil {
 		panic(err)
 	}
 
 	// check the connection
-	err = db.Ping()
+	err = DB.Ping()
 
 	if err != nil {
 		panic(err)
@@ -33,5 +26,5 @@ func createConnection() *sql.DB {
 
 	fmt.Println("Successfully connected!")
 	// return the connection
-	return db
+	return DB
 }
