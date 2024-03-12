@@ -16,6 +16,8 @@ func main() {
 	}
 
 	db := config.CreateConnection()
+
+	defer db.Close()
 	e := echo.New()
 	routes.Routes(e, db)
 
