@@ -6,3 +6,16 @@ CREATE TABLE IF NOT EXISTS "users" (
     "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
+
+CREATE TABLE IF NOT EXISTS "products" (
+    "id" serial PRIMARY KEY not null,
+    "name" varchar(60) not null,
+    "price" int not null,
+    "image_url" varchar(255) not null,
+    "stock" int not null,
+    "condition" varchar(20) not null,
+    "tags" varchar(255)[] not null,
+    "is_purchaseable" boolean not null,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
