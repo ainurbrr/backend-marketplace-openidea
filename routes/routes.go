@@ -12,5 +12,9 @@ import (
 func Routes(e *echo.Echo, db *sql.DB) {
 	e.Validator = &util.CustomValidator{Validator: validator.New()}
 
-	e.POST("/register", controller.RegisterUserController)
+	ver := e.Group("/v1")
+
+	user := ver.Group("/user")
+	user.POST("/register", controller.RegisterUserController)
+	user.POST("/login", controller.LoginUserController)
 }
