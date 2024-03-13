@@ -19,6 +19,6 @@ func Routes(e *echo.Echo, db *sql.DB) {
 	user.POST("/login", controller.LoginUserController)
 
 	product := ver.Group("/product")
-	product.POST("/createproduct", controller.CreateProduct)
+	product.POST("", controller.CreateProductController)
 
 }

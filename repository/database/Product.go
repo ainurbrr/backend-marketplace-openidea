@@ -13,7 +13,7 @@ func CreateProduct(product *models.Product) (error, uint) {
 	var id uint
 
 	err := config.DB.QueryRow(`
-		INSERT INTO Product (name, price, imageUrl, stock, condition, tags, isPurchaseable)
+		INSERT INTO products (name, price, image_url, stock, condition, tags, is_purchaseable)
 		VALUES ($1, $2, $3, $4, $5, $6, $7)
 		RETURNING id`,
 		product.Name, product.Price, product.ImageURL, product.Stock,

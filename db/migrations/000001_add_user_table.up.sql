@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS "users" (
     "password" varchar(255) not null,
     "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
+
+CREATE TYPE condition AS ENUM ('new', 'second');
 
 CREATE TABLE IF NOT EXISTS "products" (
     "id" serial PRIMARY KEY not null,
@@ -13,7 +15,7 @@ CREATE TABLE IF NOT EXISTS "products" (
     "price" int not null,
     "image_url" varchar(255) not null,
     "stock" int not null,
-    "condition" varchar(20) not null,
+    "condition" condition not null,
     "tags" varchar(255)[] not null,
     "is_purchaseable" boolean not null,
     "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

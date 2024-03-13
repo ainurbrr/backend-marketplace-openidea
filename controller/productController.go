@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func CreateProduct(c echo.Context) error {
+func CreateProductController(c echo.Context) error {
 	payloadProduct := payload.CreateProductRequest{}
 	c.Bind(&payloadProduct)
 

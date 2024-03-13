@@ -47,7 +47,7 @@ func LoginUserController(c echo.Context) error {
 
 	response, err := service.LoginUser(&payloadUser)
 	if err != nil {
-		if err.Error() == "Email Not Registered" {
+		if err.Error() == "Username Not Registered" {
 			return c.JSON(http.StatusNotFound, err.Error())
 		}
 		return c.JSON(http.StatusBadRequest, err.Error())
