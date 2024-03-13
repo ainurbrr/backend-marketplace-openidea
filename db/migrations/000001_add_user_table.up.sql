@@ -21,3 +21,12 @@ CREATE TABLE IF NOT EXISTS "products" (
     "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS "bank_accounts" (
+    "id" serial PRIMARY KEY not null,
+    "bank_name" VARCHAR(50) NOT NULL,
+    "bank_account_name" VARCHAR(50) NOT NULL,
+    "bank_account_number" VARCHAR(50) NOT NULL,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

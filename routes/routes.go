@@ -2,6 +2,7 @@ package routes
 
 import (
 	"backend-marketplace-openidea/controller"
+	"backend-marketplace-openidea/middleware"
 	"backend-marketplace-openidea/util"
 	"database/sql"
 
@@ -18,7 +19,11 @@ func Routes(e *echo.Echo, db *sql.DB) {
 	user.POST("/register", controller.RegisterUserController)
 	user.POST("/login", controller.LoginUserController)
 
-	product := ver.Group("/product")
+	product := ver.Group("/product", middleware.IsLoggedIn)
 	product.POST("", controller.CreateProductController)
+
+
+	bankA := ver.Group("/bank/account", middleware.IsLoggedIn)
+	bankA.POST("", controller.CreateBankAccountController)
 
 }

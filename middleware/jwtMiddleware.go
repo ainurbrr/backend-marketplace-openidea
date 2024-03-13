@@ -18,6 +18,6 @@ func CreateToken(userId string) (string, error) {
 	claims["userId"] = userId
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	byteSecret := []byte("S3ret")
+	byteSecret := []byte("S3cret")
 	return token.SignedString(byteSecret)
 }

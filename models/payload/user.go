@@ -9,7 +9,7 @@ type CreateUserRequest struct {
 type CreateOrLoginUserResponse struct {
 	Username   string `json:"username"`
 	Name       string `json:"name"`
-	AccesToken string `json:"acces_token"`
+	AccessToken string `json:"accessToken"`
 }
 
 type LoginUserRequest struct {

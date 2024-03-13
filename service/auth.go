@@ -39,7 +39,7 @@ func RegisterUser(req *payload.CreateUserRequest) (resp payload.CreateOrLoginUse
 	resp = payload.CreateOrLoginUserResponse{
 		Username:   newUser.Username,
 		Name:       newUser.Name,
-		AccesToken: token,
+		AccessToken: token,
 	}
 
 	return
@@ -65,7 +65,7 @@ func LoginUser(req *payload.LoginUserRequest) (res payload.CreateOrLoginUserResp
 	res = payload.CreateOrLoginUserResponse{
 		Username: user.Username,
 		Name: user.Name,
-		AccesToken: token,
+		AccessToken: token,
 	}
 
 	return
