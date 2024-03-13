@@ -13,5 +13,4 @@ func Routes(e *echo.Echo, db *sql.DB) {
 	e.Validator = &util.CustomValidator{Validator: validator.New()}
 
 	e.POST("/register", controller.RegisterUserController)
-	e.POST("/CreateProduct", controller.CreateProduct)
 }
