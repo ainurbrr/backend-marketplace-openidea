@@ -48,6 +48,7 @@ func UpdateProduct(productID string, product *models.Product) (error, string) {
 	fmt.Printf("Updated a single record with ID: %v", productID)
 	return nil, productID
 }
+
 func GetProductByID(id string) (*models.Product, error) {
 	var product models.Product
 
@@ -71,4 +72,13 @@ func GetProductByID(id string) (*models.Product, error) {
 	}
 
 	return &product, nil
+}
+
+func UpdateProductStock(product *models.Product) error {
+	_, err := config.DB.Exec("UPDATE products SET stock = COALESCE($1, stock) WHERE id = $2", product.Stock, product.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

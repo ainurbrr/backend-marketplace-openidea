@@ -82,7 +82,7 @@ func GetProductById(c echo.Context) error {
 			"message": "You must be re-login",
 		})
 	}
-	
+
 	id := c.Param("productId")
 	response, err := service.GetProductByID(id)
 	if err != nil {
@@ -95,4 +95,41 @@ func GetProductById(c echo.Context) error {
 		Message: "success",
 		Data:    response,
 	})
+}
+
+func UpdateProductStockController(c echo.Context) error {
+	_, err := middleware.ExtractUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"Message": "you must be re login",
+		})
+	}
+
+	payloadStock := payload.UpdateProductStockRequest{}
+	c.Bind(&payloadStock)
+
+	id := c.Param("productId")
+
+	product, err := service.GetProductByID(id)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, err.Error())
+	}
+
+	if err := c.Validate(payloadStock); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "error payload update product",
+			"error":   err.Error(),
+		})
+	}
+
+	err = service.UpdateProductStock(product, &payloadStock)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, payload.Response{
+		Message: "success update product data",
+		Data:    http.StatusOK,
+	})
+
 }

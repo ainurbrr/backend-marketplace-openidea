@@ -24,7 +24,9 @@ func Routes(e *echo.Echo, db *sql.DB) {
 	product := ver.Group("/product", middleware.IsLoggedIn)
 	product.POST("", controller.CreateProductController)
 	product.PATCH("/:productId", controller.UpdateProductController)
+
 	product.GET("/:productId", controller.GetProductById)
+	product.POST("/:productId/stock", controller.UpdateProductStockController)
 
 	bankA := ver.Group("/bank/account", middleware.IsLoggedIn)
 	bankA.POST("", controller.CreateBankAccountController)

@@ -70,3 +70,13 @@ func GetProductByID(id string) (*models.Product, error) {
 	}
 	return product, nil
 }
+
+func UpdateProductStock(product *models.Product, req *payload.UpdateProductStockRequest) error {
+	product.Stock = req.Stock
+	
+	err := database.UpdateProductStock(product)
+	if err != nil {
+		return err
+	}
+	return nil
+}
