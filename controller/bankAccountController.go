@@ -81,7 +81,7 @@ func UpdateBankAccountController(c echo.Context) error {
 	}
 
 	if bank.UserID != userId {
-		return c.JSON(http.StatusForbidden, errors.New("forbidden"))
+		return c.JSON(http.StatusForbidden, "forbidden access")
 	}
 
 	if err := c.Validate(payloadBank); err != nil {

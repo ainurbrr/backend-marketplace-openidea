@@ -15,6 +15,8 @@ func Routes(e *echo.Echo, db *sql.DB) {
 
 	ver := e.Group("/v1")
 
+	ver.POST("/image", controller.UploadImage)
+
 	user := ver.Group("/user")
 	user.POST("/register", controller.RegisterUserController)
 	user.POST("/login", controller.LoginUserController)
