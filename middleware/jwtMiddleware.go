@@ -5,6 +5,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt/v4"
+	"github.com/labstack/echo/v4"
 )
 
 var IsLoggedIn = echojwt.WithConfig(echojwt.Config{
@@ -20,4 +21,15 @@ func CreateToken(userId string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	byteSecret := []byte("S3cret")
 	return token.SignedString(byteSecret)
+}
+
+func ExtractUserID(c echo.Context) (userId string, err error) {
+	user := c.Get("user").(*jwt.Token)
+	if !user.Valid {
+		return userId, echo.NewHTTPError(401, "Unauthorized")
+	}
+	claims := user.Claims.(jwt.MapClaims)
+	userId = claims["userId"].(string)
+
+	return userId, nil
 }

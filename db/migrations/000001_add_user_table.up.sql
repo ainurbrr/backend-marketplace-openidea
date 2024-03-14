@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS "products" (
 
 CREATE TABLE IF NOT EXISTS "bank_accounts" (
     "id" serial PRIMARY KEY not null,
+    "user_id" int REFERENCES "users" ("id") ON DELETE CASCADE,
     "bank_name" VARCHAR(50) NOT NULL,
     "bank_account_name" VARCHAR(50) NOT NULL,
     "bank_account_number" VARCHAR(50) NOT NULL,

@@ -25,5 +25,8 @@ func Routes(e *echo.Echo, db *sql.DB) {
 
 	bankA := ver.Group("/bank/account", middleware.IsLoggedIn)
 	bankA.POST("", controller.CreateBankAccountController)
+	bankA.GET("", controller.GetBankAccountByUserIdController)
+	bankA.PATCH("/:bankAccountId", controller.UpdateBankAccountController)
+	bankA.DELETE("/:bankAccountId", controller.DeleteBankAccountByUserIdController)
 
 }
