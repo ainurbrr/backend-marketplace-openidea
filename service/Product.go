@@ -4,6 +4,7 @@ import (
 	"backend-marketplace-openidea/models"
 	"backend-marketplace-openidea/models/payload"
 	"backend-marketplace-openidea/repository/database"
+	"errors"
 )
 
 func CreateProduct(req *payload.CreateProductRequest) (resp *payload.ProductResponse, err error) {
@@ -60,4 +61,12 @@ func UpdateProduct(productID string, req *payload.UpdateProductRequest) (resp *p
 	}
 
 	return resp, nil
+}
+
+func GetProductByID(id string) (*models.Product, error) {
+	product, err := database.GetProductByID(id)
+	if err != nil {
+		return nil, errors.New("Product not found")
+	}
+	return product, nil
 }

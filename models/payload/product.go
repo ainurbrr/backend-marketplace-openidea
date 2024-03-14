@@ -36,3 +36,15 @@ type ProductUpdateResponse struct {
 	Tags           []string `json:"tags"`
 	IsPurchaseable bool     `json:"isPurchaseable"`
 }
+
+type GetProduct struct {
+    ProductID     string   `json:"productId"`
+    Name          string   `json:"name"`
+    Price         int      `json:"price"`
+    ImageURL      string   `json:"imageUrl"`
+    Stock         int      `json:"stock"`
+    Condition     string   `json:"condition"`
+    Tags          []string `json:"tags"`
+    IsPurchasable bool     `json:"isPurchasable"`
+    PurchaseCount int      `json:"purchaseCount"`
+}

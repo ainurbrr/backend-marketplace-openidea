@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"backend-marketplace-openidea/middleware"
 	"backend-marketplace-openidea/models/payload"
 	"backend-marketplace-openidea/service"
 	"net/http"
@@ -9,6 +10,12 @@ import (
 )
 
 func CreateProductController(c echo.Context) error {
+	_, err := middleware.ExtractUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"Message": "you must be re login",
+		})
+	}
 	payloadProduct := payload.CreateProductRequest{}
 	c.Bind(&payloadProduct)
 
@@ -33,6 +40,12 @@ func CreateProductController(c echo.Context) error {
 }
 
 func UpdateProductController(c echo.Context) error {
+	_, err := middleware.ExtractUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"Message": "you must be re login",
+		})
+	}
 	productID := c.Param("productId")
 	payloadProduct := payload.UpdateProductRequest{}
 	if err := c.Bind(&payloadProduct); err != nil {
@@ -58,6 +71,28 @@ func UpdateProductController(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, payload.Response{
 		Message: "product updated successfully",
+		Data:    response,
+	})
+}
+
+func GetProductById(c echo.Context) error {
+	_, err := middleware.ExtractUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"message": "You must be re-login",
+		})
+	}
+	
+	id := c.Param("productId")
+	response, err := service.GetProductByID(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"message": err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, payload.Response{
+		Message: "success",
 		Data:    response,
 	})
 }

@@ -48,3 +48,27 @@ func UpdateProduct(productID string, product *models.Product) (error, string) {
 	fmt.Printf("Updated a single record with ID: %v", productID)
 	return nil, productID
 }
+func GetProductByID(id string) (*models.Product, error) {
+	var product models.Product
+
+	err := config.DB.QueryRow(`
+        SELECT id, name, price, image_url, stock, condition, tags, is_purchaseable
+        FROM products
+        WHERE id = $1
+    `, id).Scan(
+		&product.ID,
+		&product.Name,
+		&product.Price,
+		&product.ImageURL,
+		&product.Stock,
+		&product.Condition,
+		pq.Array(&product.Tags),
+		&product.IsPurchaseable,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &product, nil
+}
