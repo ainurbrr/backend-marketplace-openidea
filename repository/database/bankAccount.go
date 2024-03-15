@@ -65,11 +65,11 @@ func UpdateBankAccount(bank *models.BankAccount) error {
 }
 
 func DeleteBankAccountByID(id string) error {
-    // Execute the SQL query to delete bank account data by ID
-    _, err := config.DB.Exec("DELETE FROM bank_accounts WHERE id = $1", id)
-    if err != nil {
-        return err
-    }
+	// Execute the SQL query to delete bank account data by ID
+	_, err := config.DB.Exec("DELETE FROM bank_accounts WHERE id = $1", id)
+	if err != nil {
+		return err
+	}
 
-    return nil
+	return nil
 }

@@ -70,3 +70,18 @@ func GetProductByID(id string) (*models.Product, error) {
 	}
 	return product, nil
 }
+func DeleteProduct(productID string) error {
+	err := database.DeleteProduct(productID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+func GetAllProducts() ([]*models.Product, error) {
+	// Call the appropriate function from the database package to retrieve all products
+	products, err := database.GetAllProducts()
+	if err != nil {
+		return nil, err
+	}
+	return products, nil
+}

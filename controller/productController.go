@@ -47,6 +47,15 @@ func UpdateProductController(c echo.Context) error {
 		})
 	}
 	productID := c.Param("productId")
+
+	productId, err := service.GetProductByID(productID)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, err.Error())
+	}
+	if productId.ID != productID {
+		return c.JSON(http.StatusForbidden, "forbidden access")
+	}
+
 	payloadProduct := payload.UpdateProductRequest{}
 	if err := c.Bind(&payloadProduct); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{
@@ -82,11 +91,11 @@ func GetProductById(c echo.Context) error {
 			"message": "You must be re-login",
 		})
 	}
-	
+
 	id := c.Param("productId")
 	response, err := service.GetProductByID(id)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{
+		return c.JSON(http.StatusNotFound, map[string]string{
 			"message": err.Error(),
 		})
 	}
@@ -94,5 +103,53 @@ func GetProductById(c echo.Context) error {
 	return c.JSON(http.StatusOK, payload.Response{
 		Message: "success",
 		Data:    response,
+	})
+}
+
+func DeleteProductController(c echo.Context) error {
+	_, err := middleware.ExtractUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"Message": "you must be re-login",
+		})
+	}
+	productID := c.Param("productId")
+
+	productId, err := service.GetProductByID(productID)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, err.Error())
+	}
+	if productId.ID != productID {
+		return c.JSON(http.StatusForbidden, "forbidden access")
+	}
+	err = service.DeleteProduct(productID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "error deleting product",
+			"error":   err.Error(),
+		})
+	}
+	return c.JSON(http.StatusOK, payload.Response{
+		Message: "success Delete Product",
+		Data:    http.StatusOK,
+	})
+}
+
+func GetAllProductsController(c echo.Context) error {
+	_, err := middleware.ExtractUserID(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"message": "You must be re-login",
+		})
+	}
+	products, err := service.GetAllProducts()
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{
+			"message": err.Error(),
+		})
+	}
+	return c.JSON(http.StatusOK, payload.Response{
+		Message: "success",
+		Data:    products,
 	})
 }

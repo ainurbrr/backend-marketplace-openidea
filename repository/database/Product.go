@@ -72,3 +72,51 @@ func GetProductByID(id string) (*models.Product, error) {
 
 	return &product, nil
 }
+func DeleteProduct(productID string) error {
+	_, err := config.DB.Exec(`
+        DELETE FROM products
+        WHERE id = $1
+    `, productID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+func GetAllProducts() ([]*models.Product, error) {
+	rows, err := config.DB.Query(`
+        SELECT id, name, price, image_url, stock, condition, tags, is_purchaseable
+        FROM products
+    `)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var products []*models.Product
+
+	for rows.Next() {
+		var product models.Product
+		err := rows.Scan(
+			&product.ID,
+			&product.Name,
+			&product.Price,
+			&product.ImageURL,
+			&product.Stock,
+			&product.Condition,
+			pq.Array(&product.Tags),
+			&product.IsPurchaseable,
+		)
+		if err != nil {
+			return nil, err
+		}
+		products = append(products, &product)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return products, nil
+}
