@@ -38,13 +38,17 @@ type ProductUpdateResponse struct {
 }
 
 type GetProduct struct {
-    ProductID     string   `json:"productId"`
-    Name          string   `json:"name"`
-    Price         int      `json:"price"`
-    ImageURL      string   `json:"imageUrl"`
-    Stock         int      `json:"stock"`
-    Condition     string   `json:"condition"`
-    Tags          []string `json:"tags"`
-    IsPurchasable bool     `json:"isPurchasable"`
-    PurchaseCount int      `json:"purchaseCount"`
+	ProductID     string   `json:"productId"`
+	Name          string   `json:"name"`
+	Price         int      `json:"price"`
+	ImageURL      string   `json:"imageUrl"`
+	Stock         int      `json:"stock"`
+	Condition     string   `json:"condition"`
+	Tags          []string `json:"tags"`
+	IsPurchasable bool     `json:"isPurchasable"`
+	PurchaseCount int      `json:"purchaseCount"`
+}
+
+type UpdateProductStockRequest struct {
+	Stock int `json:"stock" validate:required"`
 }
