@@ -85,3 +85,12 @@ func GetAllProducts() ([]*models.Product, error) {
 	}
 	return products, nil
 }
+func UpdateProductStock(product *models.Product, req *payload.UpdateProductStockRequest) error {
+	product.Stock = req.Stock
+
+	err := database.UpdateProductStock(product)
+	if err != nil {
+		return err
+	}
+	return nil
+}

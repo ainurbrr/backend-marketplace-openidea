@@ -105,7 +105,7 @@ func GetAllProducts() ([]*models.Product, error) {
             &product.ImageURL,
             &product.Stock,
             &product.Condition,
-			
+
             pq.Array(&product.Tags),
             &product.IsPurchaseable,
         )
@@ -120,4 +120,12 @@ func GetAllProducts() ([]*models.Product, error) {
     }
 
     return products, nil
+}
+func UpdateProductStock(product *models.Product) error {
+	_, err := config.DB.Exec("UPDATE products SET stock = COALESCE($1, stock) WHERE id = $2", product.Stock, product.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
