@@ -13,11 +13,11 @@ func CreateProduct(product *models.Product) (error, string) {
 	var id string
 
 	err := config.DB.QueryRow(`
-		INSERT INTO products (name, price, image_url, stock, condition, tags, is_purchaseable)
-		VALUES ($1, $2, $3, $4, $5, $6, $7)
+		INSERT INTO products (name, price, image_url, stock, condition, tags, is_purchaseable, purchase_count)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 		RETURNING id`,
 		product.Name, product.Price, product.ImageURL, product.Stock,
-		product.Condition, pq.Array(product.Tags), product.IsPurchaseable,
+		product.Condition, pq.Array(product.Tags), product.IsPurchaseable, product.PurchaseCount,
 	).Scan(&id)
 
 	if err != nil {
@@ -32,7 +32,7 @@ func UpdateProduct(productID string, product *models.Product) (error, string) {
 
 	err := config.DB.QueryRow(`
 		UPDATE products
-		SET name=$1, price=$2, image_url=$3, condition=$4, tags=$5, is_purchaseable=$6
+		SET name=$1, price=$2, image_url=$3, condition=$4, tags=$5, is_purchaseable=$6,
 		WHERE id=$7
 		RETURNING id`,
 		product.Name, product.Price, product.ImageURL,
@@ -50,12 +50,10 @@ func UpdateProduct(productID string, product *models.Product) (error, string) {
 }
 func GetProductByID(id string) (*models.Product, error) {
 	var product models.Product
-
 	err := config.DB.QueryRow(`
-        SELECT id, name, price, image_url, stock, condition, tags, is_purchaseable
+        SELECT id, name, price, image_url, stock, condition, tags, is_purchaseable, purchase_count
         FROM products
-        WHERE id = $1
-    `, id).Scan(
+        WHERE id = $1`, id).Scan(
 		&product.ID,
 		&product.Name,
 		&product.Price,
@@ -64,6 +62,7 @@ func GetProductByID(id string) (*models.Product, error) {
 		&product.Condition,
 		pq.Array(&product.Tags),
 		&product.IsPurchaseable,
+		&product.PurchaseCount,
 	)
 
 	if err != nil {
