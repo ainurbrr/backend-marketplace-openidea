@@ -78,7 +78,6 @@ func DeleteProduct(productID string) error {
 	return nil
 }
 func GetAllProducts() ([]*models.Product, error) {
-	// Call the appropriate function from the database package to retrieve all products
 	products, err := database.GetAllProducts()
 	if err != nil {
 		return nil, err

@@ -102,7 +102,7 @@ func GetProductById(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, payload.Response{
 		Message: "success",
-		Data:    response,
+		Data:    map[string]interface{}{"Product": response},
 	})
 }
 

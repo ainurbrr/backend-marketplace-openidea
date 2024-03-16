@@ -72,6 +72,7 @@ func GetProductByID(id string) (*models.Product, error) {
 
 	return &product, nil
 }
+
 func DeleteProduct(productID string) error {
 	_, err := config.DB.Exec(`
         DELETE FROM products
@@ -85,41 +86,41 @@ func DeleteProduct(productID string) error {
 	return nil
 }
 func GetAllProducts() ([]*models.Product, error) {
-    rows, err := config.DB.Query(`
+	rows, err := config.DB.Query(`
         SELECT id, name, price, image_url, stock, condition, tags, is_purchaseable
         FROM products
     `)
-    if err != nil {
-        return nil, err
-    }
-    defer rows.Close()
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
-    var products []*models.Product
+	var products []*models.Product
 
-    for rows.Next() {
-        var product models.Product
-        err := rows.Scan(
-            &product.ID,
-            &product.Name,
-            &product.Price,
-            &product.ImageURL,
-            &product.Stock,
-            &product.Condition,
+	for rows.Next() {
+		var product models.Product
+		err := rows.Scan(
+			&product.ID,
+			&product.Name,
+			&product.Price,
+			&product.ImageURL,
+			&product.Stock,
+			&product.Condition,
 
-            pq.Array(&product.Tags),
-            &product.IsPurchaseable,
-        )
-        if err != nil {
-            return nil, err
-        }
-        products = append(products, &product)
-    }
+			pq.Array(&product.Tags),
+			&product.IsPurchaseable,
+		)
+		if err != nil {
+			return nil, err
+		}
+		products = append(products, &product)
+	}
 
-    if err := rows.Err(); err != nil {
-        return nil, err
-    }
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
 
-    return products, nil
+	return products, nil
 }
 func UpdateProductStock(product *models.Product) error {
 	_, err := config.DB.Exec("UPDATE products SET stock = COALESCE($1, stock) WHERE id = $2", product.Stock, product.ID)

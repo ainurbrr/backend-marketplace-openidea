@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS "products" (
     "condition" condition not null,
     "tags" varchar(255)[] not null,
     "is_purchaseable" boolean not null,
+    "purchasecount"  int null,
     "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
