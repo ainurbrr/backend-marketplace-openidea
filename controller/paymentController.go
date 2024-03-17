@@ -18,6 +18,8 @@ func CreatePaymentController(c echo.Context) error {
 		})
 	}
 
+	productID := c.Param("productId")
+
 	payloadPayment := payload.CreatePaymentRequest{}
 	c.Bind(&payloadPayment)
 
@@ -28,7 +30,7 @@ func CreatePaymentController(c echo.Context) error {
 		})
 	}
 
-	err = service.CreatePayment(&payloadPayment, userId)
+	err = service.CreatePayment(&payloadPayment, userId, productID)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{
 			"messages": "invalid! error create Payment",

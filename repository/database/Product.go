@@ -86,7 +86,7 @@ func DeleteProduct(productID string) error {
 }
 func GetAllProducts() ([]*models.Product, error) {
 	rows, err := config.DB.Query(`
-        SELECT id, name, price, image_url, stock, condition, tags, is_purchaseable
+        SELECT id, name, price, image_url, stock, condition, tags, is_purchaseable, purchase_count
         FROM products
     `)
 	if err != nil {
@@ -108,6 +108,7 @@ func GetAllProducts() ([]*models.Product, error) {
 
 			pq.Array(&product.Tags),
 			&product.IsPurchaseable,
+			&product.PurchaseCount,
 		)
 		if err != nil {
 			return nil, err
@@ -123,6 +124,15 @@ func GetAllProducts() ([]*models.Product, error) {
 }
 func UpdateProductStock(product *models.Product) error {
 	_, err := config.DB.Exec("UPDATE products SET stock = COALESCE($1, stock) WHERE id = $2", product.Stock, product.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func UpdateProductAfterPay(product *models.Product) error {
+	_, err := config.DB.Exec("UPDATE products SET stock = COALESCE($1, stock), is_purchaseable = COALESCE($2, is_purchaseable), purchase_count = $3 WHERE id = $4", product.Stock, product.IsPurchaseable, product.PurchaseCount, product.ID)
 	if err != nil {
 		return err
 	}
