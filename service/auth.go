@@ -6,12 +6,19 @@ import (
 	"backend-marketplace-openidea/models/payload"
 	"backend-marketplace-openidea/repository/database"
 	"errors"
+	"os"
+	"strconv"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 func RegisterUser(req *payload.CreateUserRequest) (resp payload.CreateOrLoginUserResponse, err error) {
-	passwordHash, err := bcrypt.GenerateFromPassword([]byte(req.Password), 8)
+	cost, err := strconv.Atoi(os.Getenv("BCRYPT_SALT"))
+	if err != nil {
+		return
+	}
+
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(req.Password), cost)
 	if err != nil {
 		return
 	}
@@ -37,8 +44,8 @@ func RegisterUser(req *payload.CreateUserRequest) (resp payload.CreateOrLoginUse
 	}
 
 	resp = payload.CreateOrLoginUserResponse{
-		Username:   newUser.Username,
-		Name:       newUser.Name,
+		Username:    newUser.Username,
+		Name:        newUser.Name,
 		AccessToken: token,
 	}
 
@@ -63,8 +70,8 @@ func LoginUser(req *payload.LoginUserRequest) (res payload.CreateOrLoginUserResp
 	}
 
 	res = payload.CreateOrLoginUserResponse{
-		Username: user.Username,
-		Name: user.Name,
+		Username:    user.Username,
+		Name:        user.Name,
 		AccessToken: token,
 	}
 
