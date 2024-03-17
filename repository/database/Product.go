@@ -32,11 +32,11 @@ func UpdateProduct(productID string, product *models.Product) (error, string) {
 
 	err := config.DB.QueryRow(`
 		UPDATE products
-		SET name=$1, price=$2, image_url=$3, condition=$4, tags=$5, is_purchaseable=$6,
-		WHERE id=$7
+		SET name=$1, price=$2, image_url=$3, condition=$4, tags=$5, is_purchaseable=$6, purchase_count=$7
+		WHERE id=$8
 		RETURNING id`,
 		product.Name, product.Price, product.ImageURL,
-		product.Condition, pq.Array(product.Tags), product.IsPurchaseable,
+		product.Condition, pq.Array(product.Tags), product.IsPurchaseable, product.PurchaseCount,
 		productID,
 	).Scan(&productID)
 

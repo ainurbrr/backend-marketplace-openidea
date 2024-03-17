@@ -56,8 +56,7 @@ func UploadImage(c echo.Context) error {
 
 	// Create new AWS session
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("ap-southeast-1"), // Specify your AWS region
-		// Optionally, specify your AWS access key ID and secret access key here
+		Region:      aws.String("ap-southeast-1"), // Specify your AWS region
 		Credentials: credentials.NewStaticCredentials("AKIAYFGKTK6VHJB4FQPW", "ZXnztIrywJn7ziR6TawS/DyCKXJYUls7F0QX7PGY", ""),
 	})
 	if err != nil {
