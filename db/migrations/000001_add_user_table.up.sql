@@ -32,3 +32,17 @@ CREATE TABLE IF NOT EXISTS "bank_accounts" (
     "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS "payments" (
+    "id" SERIAL PRIMARY KEY not null,
+    "user_id" int NOT NULL,
+    "bank_account_id" int NOT NULL,
+    "product_id" int NOT NULL,
+    "payment_proof_image_url" VARCHAR(255) NOT NULL,
+    "quantity" INT NOT NULL,
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_bank_account_id FOREIGN KEY (bank_account_id) REFERENCES bank_accounts(id),
+    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES products(id),
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
