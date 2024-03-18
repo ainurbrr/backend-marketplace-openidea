@@ -20,4 +20,8 @@
 # Go workspace file
 go.work
 
-.env
+ap-southeast-1-bundle.pem
+Project-Sprint-Key.pem
+
+
+*.env
