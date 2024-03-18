@@ -15,13 +15,24 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
 
 # Go workspace file
 go.work
 
-ap-southeast-1-bundle.pem
-Project-Sprint-Key.pem
+# IDE
+.vscode
+
+# Build
+build
+
+.DS_Store
+
+# vscode debug binary
+cmd/__debug_bin
+*env
+env.sh
+env.prod.sh
 
 
-*.env
+*.pem
